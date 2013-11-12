@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "SublimeJira: Get issue",
+        "command": "get_jira_issue"
+    },
+    {
+        "caption": "SublimeJira: Create issue",
+        "command": "create_jira_issue"
+    },
+    {
+        "caption": "SublimeJira: Update issue",
+        "command": "update_jira_issue"
+    }
+]

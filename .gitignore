@@ -1,0 +1,4 @@
+lib/jira/__pycache__
+*.pyc
+*.sublime-workspace
+*.sublime-project

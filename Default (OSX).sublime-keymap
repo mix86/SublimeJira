@@ -1,0 +1,5 @@
+[
+    {"keys": ["super+alt+j", "super+alt+i"], "command": "get_jira_issue"},
+    {"keys": ["super+alt+j", "super+alt+n"], "command": "create_jira_issue"},
+    {"keys": ["super+alt+j", "super+alt+u"], "command": "update_jira_issue"},
+]
