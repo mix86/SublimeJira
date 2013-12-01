@@ -59,26 +59,60 @@ class Issue(object):
     }
 
   def extract_key(self, text):
-    return re.search(r'KEY: ([A-Z0-9]+\-\d+)', text.upper()).groups()[0].strip()
+    try:
+      return re.search(r'KEY: ([A-Z0-9]+\-\d+)', text.upper()).groups()[0].strip()
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue key"
+      sublime.error_message(err)
+      raise
 
   def extract_summary(self, text):
-    return re.search(r'Summary: (.+)', text).groups()[0].strip()
+    try:
+      return re.search(r'Summary: (.+)', text).groups()[0].strip()
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue summary"
+      sublime.error_message(err)
+      raise
 
   def extract_type(self, text):
-    return re.search(r'Type: (.+)', text).groups()[0].strip()
+    try:
+      return re.search(r'Type: (.+)', text).groups()[0].strip()
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue type"
+      sublime.error_message(err)
+      raise
 
   def extract_priority(self, text):
-    return re.search(r'Priority: (.+)', text).groups()[0].strip()
+    try:
+      return re.search(r'Priority: (.+)', text).groups()[0].strip()
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue priority"
+      sublime.error_message(err)
+      raise
 
   def extract_labels(self, text):
-    labels = re.search(r'Labels: (.*)', text).groups()[0]
-    return [l.strip() for l in labels.split(',') if l]
+    try:
+      labels = re.search(r'Labels: (.*)', text).groups()[0]
+      return [l.strip() for l in labels.split(',') if l]
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue labels"
+      sublime.error_message(err)
+      raise
 
   def extract_description(self, text):
-    return re.search(r'\n\n([^$]+)', text).groups()[0]
+    try:
+      return re.search(r'\n\n([^$]+)', text).groups()[0]
+    except AttributeError:
+      err = "SublimeJira error: Can't find issue description"
+      sublime.error_message(err)
+      raise
 
   def update(self, text):
-    key, issue_dict = self.parse_issue(text)
+    try:
+      key, issue_dict = self.parse_issue(text)
+    except AttributeError:
+      return False
+
     issue = self.jira.issue(key)
     issue.update(fields=issue_dict)
     return key

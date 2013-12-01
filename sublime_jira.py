@@ -73,6 +73,8 @@ class UpdateJiraIssueCommand(sublime_plugin.TextCommand):
   def put_result(self, result):
     if result:
       sublime.status_message('Issue updated: {}'.format(result))
+    else:
+      sublime.status_message('Issue NOT updated')
 
     self.view.sel().clear()
 
