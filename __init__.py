@@ -10,3 +10,5 @@ if not plugin in sys.path:
 
 if not libpath in sys.path:
   sys.path.append(libpath)
+
+VERSION = '0.1.4'
