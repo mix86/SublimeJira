@@ -23,7 +23,28 @@ class GetJiraIssueCommand(sublime_plugin.WindowCommand):
     view.run_command('replace_all', {'text': text})
 
   def prompt(self):
-    issue_key_hint = "{}-".format(settings().get('jira_default_project', ''))
+    view = self.window.active_view()
+
+    # Try to retrieve selected text or text around cursor
+    selection = view.sel()
+    issue_text = view.substr(view.word(selection[0]))
+
+    # default hint is project prefix
+    project_prefix = '{}-'.format(settings().get('jira_default_project', ''))
+    issue_key_hint = project_prefix
+
+    # But if there is some text under selected or under the cursor
+    if issue_text:
+
+      # And it starts with project prefix
+      if (issue_text.startswith(project_prefix)
+          and issue_text[len(project_prefix):].isdigit()):
+        issue_key_hint = issue_text
+
+      # Or is a number
+      elif issue_text.isdigit():
+        issue_key_hint = project_prefix + issue_text
+
     callback = lambda v: self.window.run_command('get_jira_issue',
                                                  {'issue_key': v})
     self.window.show_input_panel('Issue key', issue_key_hint, callback, None, None)
@@ -48,8 +69,7 @@ class CreateJiraIssue(sublime_plugin.WindowCommand):
         settings().get('jira_default_project', ''),
         lambda project: self.run(project=project),
         None,
-        None
-      )
+        None      )
 
     elif not summary:
       self.window.show_input_panel(
